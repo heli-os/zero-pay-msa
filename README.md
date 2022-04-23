@@ -1,2 +1,9 @@
 # zero-pay-msa
-[Java SpringBoot] Remittance User Service &amp; Core System &amp; VAN
+
+## Summary
+TBU
+
+## Microservices
+* Remittance User Service
+* Remittance Core System
+* Remittance VAN

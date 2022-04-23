@@ -5,5 +5,5 @@ TBU
 
 ## Microservices
 * Remittance User Service
-* Remittance Core System
-* Remittance VAN
+* Finance Gateway System
+* Finance VAN System

@@ -4,6 +4,6 @@
 TBU
 
 ## Microservices
-* Remittance User Service
-* Finance Gateway System
-* Finance VAN System
+* ZeroPayMoney
+* Finance Gateway
+* Finance Mock VAN

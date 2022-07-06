@@ -13,4 +13,32 @@ services:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
     volumes:
-      - '~/mysql:/var/lib/mysql'
+      - '~/mysql/finance-mock-van:/var/lib/mysql'
+  finance-gateway-db:
+    image: mysql:5.7
+    container_name: 'finance-gateway-db'
+    platform: linux/amd64
+    ports:
+      - '20002:3306'
+    environment:
+      MYSQL_DATABASE: 'finance-gateway'
+      MYSQL_ROOT_PASSWORD: 'local-password-123!'
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    volumes:
+      - '~/mysql/finance-gateway:/var/lib/mysql'
+  money-service-db:
+    image: mysql:5.7
+    container_name: 'money-service-db'
+    platform: linux/amd64
+    ports:
+      - '30002:3306'
+    environment:
+      MYSQL_DATABASE: 'money-service-db'
+      MYSQL_ROOT_PASSWORD: 'local-password-123!'
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    volumes:
+      - '~/mysql/finance-gateway:/var/lib/mysql'

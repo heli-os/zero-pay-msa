@@ -1,19 +1,19 @@
 version: "3"
 services:
-  finance-mock-van-db:
+  finance-van-db:
     image: mysql:5.7
-    container_name: 'finance-mock-van-db'
+    container_name: 'finance-van-db'
     platform: linux/amd64
     ports:
       - '10002:3306'
     environment:
-      MYSQL_DATABASE: 'finance-mock-van'
+      MYSQL_DATABASE: 'finance-van'
       MYSQL_ROOT_PASSWORD: 'local-password-123!'
     command:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
     volumes:
-      - '~/mysql/finance-mock-van:/var/lib/mysql'
+      - '~/mysql/finance-van:/var/lib/mysql'
   finance-gateway-db:
     image: mysql:5.7
     container_name: 'finance-gateway-db'
@@ -28,14 +28,14 @@ services:
       - '--collation-server=utf8mb4_unicode_ci'
     volumes:
       - '~/mysql/finance-gateway:/var/lib/mysql'
-  money-service-db:
+  zero-pay-application-db:
     image: mysql:5.7
-    container_name: 'money-service-db'
+    container_name: 'zero-pay-application-db'
     platform: linux/amd64
     ports:
       - '30002:3306'
     environment:
-      MYSQL_DATABASE: 'money-service-db'
+      MYSQL_DATABASE: 'zero-pay-application-db'
       MYSQL_ROOT_PASSWORD: 'local-password-123!'
     command:
       - '--character-set-server=utf8mb4'

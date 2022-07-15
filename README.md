@@ -4,6 +4,6 @@
 TBU
 
 ## Microservices
-* ZeroPayMoney
+* Zero Pay Application
 * Finance Gateway
-* Finance Mock VAN
+* Finance VAN

@@ -3,40 +3,73 @@ package kr.co.zerobase.financevan.domain.bank;
 import kr.co.zerobase.financevan.configuration.jpa.BaseEntity;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 /**
  * @Author Heli
  */
 @Entity
-@Table(name = "bank_accounts")
+@Table(name = "bank_account")
 public class BankAccount extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "bank")
+    @Column(name = "bank", nullable = false)
     private BankCorp bank;
 
-    @Column(name = "account_id")
+    @Column(name = "account_id", nullable = false)
     private String accountId;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "birthday")
+    @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    @Column(name = "amount")
-    private BigInteger amount;
+    @Column(name = "balance", nullable = false)
+    private long balance;
 
-    public BankAccount(BankCorp bank, String accountId, String name, LocalDate birthday, BigInteger amount) {
+    public static BankAccount create(BankCorp bank, String accountId, String name, LocalDate birthday, long balance) {
+        return new BankAccount(bank, accountId, name, birthday, balance);
+    }
+
+    public BankAccount increaseBalance(long balance) {
+        this.balance += balance;
+        return this;
+    }
+
+    public BankAccount decreaseBalance(long balance) {
+        this.balance -= balance;
+        return this;
+    }
+
+    private BankAccount(BankCorp bank, String accountId, String name, LocalDate birthday, long balance) {
         this.bank = bank;
         this.accountId = accountId;
         this.name = name;
         this.birthday = birthday;
-        this.amount = amount;
+        this.balance = balance;
     }
 
-    public BankAccount() {
+    public BankCorp getBank() {
+        return bank;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    protected BankAccount() {
     }
 }

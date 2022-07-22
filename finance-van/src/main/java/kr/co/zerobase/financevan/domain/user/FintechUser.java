@@ -5,6 +5,7 @@ import kr.co.zerobase.financevan.domain.bank.BankCorp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * @Author Heli
@@ -28,4 +29,37 @@ public class FintechUser extends BaseEntity {
 
     @Column(name = "fintech_user_num", nullable = false)
     private String fintechUserNum;
+
+    public static FintechUser issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday) {
+        FintechUser fintechUser = new FintechUser();
+        fintechUser.bank = bank;
+        fintechUser.bankAccountId = bankAccountId;
+        fintechUser.name = name;
+        fintechUser.birthday = birthday;
+        fintechUser.fintechUserNum = UUID.randomUUID().toString();
+        return fintechUser;
+    }
+
+    protected FintechUser() {
+    }
+
+    public BankCorp getBank() {
+        return bank;
+    }
+
+    public String getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public String getFintechUserNum() {
+        return fintechUserNum;
+    }
 }

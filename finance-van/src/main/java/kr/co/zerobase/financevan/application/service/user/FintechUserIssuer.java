@@ -1,6 +1,6 @@
 package kr.co.zerobase.financevan.application.service.user;
 
-import kr.co.zerobase.financevan.application.mapper.BankAccountMapper;
+import kr.co.zerobase.financevan.application.mapper.FintechUserMapper;
 import kr.co.zerobase.financevan.application.service.user.definition.FintechUserDefinition;
 import kr.co.zerobase.financevan.application.service.user.exception.AlreadyRegisterUserException;
 import kr.co.zerobase.financevan.domain.bank.BankCorp;
@@ -33,6 +33,6 @@ public class FintechUserIssuer {
         FintechUser fintechUser = FintechUser.issue(bank, bankAccountId, name, birthday);
         fintechUserRepository.save(fintechUser);
 
-        return BankAccountMapper.toDefinition(fintechUser);
+        return FintechUserMapper.toDefinition(fintechUser);
     }
 }

@@ -1,4 +1,4 @@
-package kr.co.zerobase.financevan.application.service.user.definition;
+package kr.co.zerobase.financevan.application.service.bank.definition;
 
 import kr.co.zerobase.financevan.domain.bank.BankCorp;
 
@@ -8,24 +8,26 @@ import java.time.LocalDateTime;
 /**
  * @Author Heli
  */
-public class FintechUserDefinition {
+public class BankAccountDefinition {
 
     private final long id;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
     private final BankCorp bank;
-    private final String bankAccountId;
+    private final String accountId;
+    private final String name;
     private final LocalDate birthday;
-    private final String fintechUserNum;
+    private final long balance;
 
-    public FintechUserDefinition(long id, LocalDateTime createdAt, LocalDateTime modifiedAt, BankCorp bank, String bankAccountId, LocalDate birthday, String fintechUserNum) {
+    public BankAccountDefinition(long id, LocalDateTime createdAt, LocalDateTime modifiedAt, BankCorp bank, String accountId, String name, LocalDate birthday, long balance) {
         this.id = id;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.bank = bank;
-        this.bankAccountId = bankAccountId;
+        this.accountId = accountId;
+        this.name = name;
         this.birthday = birthday;
-        this.fintechUserNum = fintechUserNum;
+        this.balance = balance;
     }
 
     public long getId() {
@@ -44,15 +46,19 @@ public class FintechUserDefinition {
         return bank;
     }
 
-    public String getBankAccountId() {
-        return bankAccountId;
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public LocalDate getBirthday() {
         return birthday;
     }
 
-    public String getFintechUserNum() {
-        return fintechUserNum;
+    public long getBalance() {
+        return balance;
     }
 }

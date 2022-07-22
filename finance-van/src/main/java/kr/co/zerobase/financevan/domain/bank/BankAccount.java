@@ -1,9 +1,11 @@
 package kr.co.zerobase.financevan.domain.bank;
 
 import kr.co.zerobase.financevan.configuration.jpa.BaseEntity;
+import kr.co.zerobase.financevan.domain.bank.exception.NotEnoughBalanceException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * @Author Heli
@@ -28,8 +30,8 @@ public class BankAccount extends BaseEntity {
     @Column(name = "balance", nullable = false)
     private long balance;
 
-    public static BankAccount create(BankCorp bank, String accountId, String name, LocalDate birthday, long balance) {
-        return new BankAccount(bank, accountId, name, birthday, balance);
+    public static BankAccount create(BankCorp bank, String name, LocalDate birthday, long balance) {
+        return new BankAccount(bank, UUID.randomUUID().toString(), name, birthday, balance);
     }
 
     public BankAccount increaseBalance(long balance) {
@@ -38,6 +40,9 @@ public class BankAccount extends BaseEntity {
     }
 
     public BankAccount decreaseBalance(long balance) {
+        if (this.balance - balance < 0) {
+            throw new NotEnoughBalanceException(this.bank, this.accountId, this.balance, balance);
+        }
         this.balance -= balance;
         return this;
     }

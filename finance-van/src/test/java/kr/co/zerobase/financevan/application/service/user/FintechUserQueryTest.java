@@ -1,7 +1,7 @@
 package kr.co.zerobase.financevan.application.service.user;
 
 import kr.co.zerobase.financevan.application.service.user.definition.FintechUserDefinition;
-import kr.co.zerobase.financevan.application.service.user.exception.NotFindFintechUserException;
+import kr.co.zerobase.financevan.application.service.user.exception.NotFoundFintechUserException;
 import kr.co.zerobase.financevan.infrastructure.persistence.user.FintechUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,6 +49,6 @@ class FintechUserQueryTest {
     void query_exception_case_1() {
         when(fintechUserRepository.findByFintechUserNum(any())).thenReturn(null);
 
-        assertThrows(NotFindFintechUserException.class, () -> fintechUserQuery.queryByFintechUserNum(SHINHAN_FINTECH_USER.getFintechUserNum()));
+        assertThrows(NotFoundFintechUserException.class, () -> fintechUserQuery.queryByFintechUserNum(SHINHAN_FINTECH_USER.getFintechUserNum()));
     }
 }

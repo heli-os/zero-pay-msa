@@ -37,17 +37,15 @@ class FintechUserIssuerTest {
     @Test
     @DisplayName("이미 등록된 계좌인 경우 Exception 발생")
     void issue_exception_case_1() {
-        when(fintechUserRepository.existsFintechUserByBankAndBankAccountId(any(), any())).thenReturn(true);
+        when(fintechUserRepository.existsByBankAndBankAccountId(any(), any())).thenReturn(true);
 
-        assertThrows(AlreadyRegisterUserException.class, () -> {
-            fintechUserIssuer.issue(BankCorp.SHINHAN, "111-2222-3333", "HELLO", LocalDate.of(1996, 8, 13));
-        });
+        assertThrows(AlreadyRegisterUserException.class, () -> fintechUserIssuer.issue(BankCorp.SHINHAN, "111-2222-3333", "HELLO", LocalDate.of(1996, 8, 13)));
     }
 
     @Test
     @DisplayName("등록되어 있지 않은 계좌인 경우 FintechUserNum 발행")
     void issue_correct_case_1() {
-        when(fintechUserRepository.existsFintechUserByBankAndBankAccountId(any(), any())).thenReturn(false);
+        when(fintechUserRepository.existsByBankAndBankAccountId(any(), any())).thenReturn(false);
 
         FintechUserDefinition definition = fintechUserIssuer.issue(BankCorp.SHINHAN, "111-2222-3333", "HELLO", LocalDate.of(1996, 8, 13));
         assertThat(definition.getFintechUserNum()).isNotNull();

@@ -9,5 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface FintechUserRepository extends JpaRepository<FintechUser, Long>, FintechUserRepositoryCustom {
 
-    boolean existsFintechUserByBankAndBankAccountId(BankCorp bank, String bankAccountId);
+    boolean existsByBankAndBankAccountId(BankCorp bank, String bankAccountId);
+
+    FintechUser findByFintechUserNum(String fintechUserNum);
 }

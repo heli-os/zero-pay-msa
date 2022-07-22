@@ -25,7 +25,7 @@ public class FintechUserIssuer {
 
     @Transactional
     public FintechUserDefinition issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday) {
-        boolean exist = fintechUserRepository.existsFintechUserByBankAndBankAccountId(bank, bankAccountId);
+        boolean exist = fintechUserRepository.existsByBankAndBankAccountId(bank, bankAccountId);
         if (exist) {
             throw new AlreadyRegisterUserException(bank, bankAccountId);
         }

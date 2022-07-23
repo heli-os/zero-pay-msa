@@ -10,6 +10,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long>, BankAccountRepositoryCustom {
 
     BankAccount findByBankAndAccountId(BankCorp bank, String accountId);
-
-    boolean existByBankAndAccountId(BankCorp bank, String accountId);
 }

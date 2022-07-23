@@ -1,5 +1,6 @@
 package kr.co.zerobase.financevan.domain.bank;
 
+import kr.co.zerobase.financevan.application.usecase.bank.spec.BankAccountTransactionChannelSpec;
 import kr.co.zerobase.financevan.configuration.jpa.BaseEntity;
 import kr.co.zerobase.financevan.domain.enums.BankAccountTask;
 
@@ -33,26 +34,33 @@ public class BankAccountTransaction extends BaseEntity {
     @Column(name = "print_content", nullable = false)
     private String printContent;
 
-    public static BankAccountTransaction withdraw(BankAccount bankAccount, long amount, String printContent) {
-        return new BankAccountTransaction(bankAccount, BankAccountTask.WITHDRAW, LocalDateTime.now(), null, amount, printContent);
+    @Column(name = "channel_request_id", nullable = false)
+    private String channelRequestId;
+
+    public static BankAccountTransaction create(BankAccount bankAccount, BankAccountTransactionChannelSpec spec) {
+        return new BankAccountTransaction(bankAccount, BankAccountTask.CREATE, 0, "", spec);
     }
 
-    public static BankAccountTransaction deposit(BankAccount bankAccount, long amount, String printContent) {
-        return new BankAccountTransaction(bankAccount, BankAccountTask.DEPOSIT, LocalDateTime.now(), null, amount, printContent);
+    public static BankAccountTransaction withdraw(BankAccount bankAccount, long amount, String printContent, BankAccountTransactionChannelSpec spec) {
+        return new BankAccountTransaction(bankAccount, BankAccountTask.WITHDRAW, amount, printContent, spec);
     }
 
-    public BankAccountTransaction applyResDttm() {
-        this.resDttm = LocalDateTime.now();
+    public static BankAccountTransaction deposit(BankAccount bankAccount, long amount, String printContent, BankAccountTransactionChannelSpec spec) {
+        return new BankAccountTransaction(bankAccount, BankAccountTask.DEPOSIT, amount, printContent, spec);
+    }
+
+    public BankAccountTransaction applyResDttm(LocalDateTime resDttm) {
+        this.resDttm = resDttm;
         return this;
     }
 
-    private BankAccountTransaction(BankAccount bankAccount, BankAccountTask task, LocalDateTime reqDttm, LocalDateTime resDttm, long amount, String printContent) {
+    private BankAccountTransaction(BankAccount bankAccount, BankAccountTask task, long amount, String printContent, BankAccountTransactionChannelSpec spec) {
         this.bankAccount = bankAccount;
         this.task = task;
-        this.reqDttm = reqDttm;
-        this.resDttm = resDttm;
+        this.reqDttm = LocalDateTime.now();
         this.amount = amount;
         this.printContent = printContent;
+        this.channelRequestId = spec.getChannelRequestId();
     }
 
     public BankAccount getBankAccount() {
@@ -77,6 +85,10 @@ public class BankAccountTransaction extends BaseEntity {
 
     public String getPrintContent() {
         return printContent;
+    }
+
+    public String getChannelRequestId() {
+        return channelRequestId;
     }
 
     protected BankAccountTransaction() {

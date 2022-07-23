@@ -1,6 +1,6 @@
 package kr.co.zerobase.financevan.application.mapper;
 
-import kr.co.zerobase.financevan.application.service.bank.definition.BankAccountDefinition;
+import kr.co.zerobase.financevan.application.usecase.bank.definition.BankAccountDefinition;
 import kr.co.zerobase.financevan.domain.bank.BankAccount;
 
 /**

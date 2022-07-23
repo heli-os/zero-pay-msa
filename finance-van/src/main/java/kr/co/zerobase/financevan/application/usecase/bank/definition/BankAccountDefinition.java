@@ -1,4 +1,4 @@
-package kr.co.zerobase.financevan.application.service.bank.definition;
+package kr.co.zerobase.financevan.application.usecase.bank.definition;
 
 import kr.co.zerobase.financevan.domain.bank.BankCorp;
 
@@ -60,5 +60,19 @@ public class BankAccountDefinition {
 
     public long getBalance() {
         return balance;
+    }
+
+    @Override
+    public String toString() {
+        return "BankAccountDefinition{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", bank=" + bank +
+                ", accountId='" + accountId + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", balance=" + balance +
+                '}';
     }
 }

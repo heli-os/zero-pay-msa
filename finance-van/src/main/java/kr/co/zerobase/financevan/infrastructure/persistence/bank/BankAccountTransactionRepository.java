@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Author Heli
  */
 public interface BankAccountTransactionRepository extends JpaRepository<BankAccountTransaction, Long>, BankAccountTransactionRepositoryCustom {
+
+    boolean existsByChannelRequestId(String channelRequestId);
 }

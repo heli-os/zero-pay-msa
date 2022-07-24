@@ -1,8 +1,6 @@
 package kr.co.zerobase.financevan.application.service.user;
 
-import kr.co.zerobase.financevan.application.mapper.FintechUserMapper;
-import kr.co.zerobase.financevan.application.service.user.definition.FintechUserDefinition;
-import kr.co.zerobase.financevan.application.service.user.exception.NotFoundFintechUserException;
+import kr.co.zerobase.financevan.application.usecase.user.exception.NotFoundFintechUserException;
 import kr.co.zerobase.financevan.domain.user.FintechUser;
 import kr.co.zerobase.financevan.infrastructure.persistence.user.FintechUserRepository;
 import org.springframework.stereotype.Service;
@@ -23,12 +21,12 @@ public class FintechUserQuery {
         this.fintechUserRepository = fintechUserRepository;
     }
 
-    public FintechUserDefinition queryByFintechUserNum(String fintechUserNum) {
+    public FintechUser queryByFintechUserNum(String fintechUserNum) {
         FintechUser fintechUser = fintechUserRepository.findByFintechUserNum(fintechUserNum);
         if (Objects.isNull(fintechUser)) {
             throw new NotFoundFintechUserException(fintechUserNum);
         }
 
-        return FintechUserMapper.toDefinition(fintechUser);
+        return fintechUser;
     }
 }

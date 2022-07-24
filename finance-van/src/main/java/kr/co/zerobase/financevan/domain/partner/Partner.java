@@ -16,10 +16,12 @@ public class Partner extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    public static Partner createPartner(String name) {
-        Partner entity = new Partner();
-        entity.name = name;
-        return entity;
+    public static Partner create(String name) {
+        return new Partner(name);
+    }
+
+    private Partner(String name) {
+        this.name = name;
     }
 
     public String getName() {

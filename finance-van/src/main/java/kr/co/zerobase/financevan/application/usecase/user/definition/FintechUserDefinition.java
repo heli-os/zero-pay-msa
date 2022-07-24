@@ -1,4 +1,4 @@
-package kr.co.zerobase.financevan.application.service.user.definition;
+package kr.co.zerobase.financevan.application.usecase.user.definition;
 
 import kr.co.zerobase.financevan.domain.bank.BankCorp;
 

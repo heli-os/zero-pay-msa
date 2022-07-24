@@ -1,8 +1,6 @@
 package kr.co.zerobase.financevan.application.usecase.bank;
 
-import kr.co.zerobase.financevan.application.mapper.BankAccountMapper;
-import kr.co.zerobase.financevan.application.usecase.bank.definition.BankAccountDefinition;
-import kr.co.zerobase.financevan.application.usecase.bank.exception.DuplicateBankAccountTransactionException;
+import kr.co.zerobase.financevan.application.usecase.bank.definition.BankAccountBalance;
 import kr.co.zerobase.financevan.application.usecase.bank.spec.BankAccountTransactionChannelSpec;
 import kr.co.zerobase.financevan.domain.bank.BankAccount;
 import kr.co.zerobase.financevan.domain.bank.BankAccountTransaction;
@@ -16,27 +14,22 @@ import org.springframework.transaction.annotation.Transactional;
  * @Author Heli
  */
 @Service
-public class IncreaseBalanceUseCase {
+public class InquiryBalanceUseCase {
 
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountTransactionRepository bankAccountTransactionRepository;
 
-    public IncreaseBalanceUseCase(BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
+    public InquiryBalanceUseCase(BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountTransactionRepository = bankAccountTransactionRepository;
     }
 
     @Transactional
-    public BankAccountDefinition command(BankCorp bank, String accountId, long increaseBalance, BankAccountTransactionChannelSpec spec) {
-        if (bankAccountTransactionRepository.existsByChannelRequestId(spec.getChannelRequestId())) {
-            throw new DuplicateBankAccountTransactionException(spec.getChannelRequestId());
-        }
-
+    public BankAccountBalance command(BankCorp bank, String accountId, BankAccountTransactionChannelSpec spec) {
         BankAccount bankAccount = bankAccountRepository.findByBankAndAccountId(bank, accountId);
-        BankAccountTransaction tx = BankAccountTransaction.deposit(bankAccount, increaseBalance, spec);
+        BankAccountTransaction tx = BankAccountTransaction.balance(bankAccount, spec);
 
         bankAccountTransactionRepository.save(tx);
-        bankAccountRepository.save(bankAccount);
-        return BankAccountMapper.toDefinition(bankAccount.increaseBalance(increaseBalance));
+        return new BankAccountBalance(bankAccount.getBalance());
     }
 }

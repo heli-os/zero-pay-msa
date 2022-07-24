@@ -1,6 +1,6 @@
 package kr.co.zerobase.financevan.application.service.mock;
 
-import kr.co.zerobase.financevan.application.service.user.definition.FintechUserDefinition;
+import kr.co.zerobase.financevan.application.usecase.user.definition.FintechUserDefinition;
 import kr.co.zerobase.financevan.domain.bank.BankCorp;
 
 import java.time.LocalDate;

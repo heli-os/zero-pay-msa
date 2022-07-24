@@ -1,6 +1,6 @@
 package kr.co.zerobase.financevan.application.mapper;
 
-import kr.co.zerobase.financevan.application.service.user.definition.FintechUserDefinition;
+import kr.co.zerobase.financevan.application.usecase.user.definition.FintechUserDefinition;
 import kr.co.zerobase.financevan.domain.user.FintechUser;
 
 /**

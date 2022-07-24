@@ -4,11 +4,13 @@ import kr.co.zerobase.financevan.application.service.partner.exception.NotFoundP
 import kr.co.zerobase.financevan.domain.partner.Partner;
 import kr.co.zerobase.financevan.infrastructure.persistence.partner.PartnerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author Heli
  */
 @Service
+@Transactional(readOnly = true)
 public class PartnerQuery {
 
     private final PartnerRepository partnerRepository;

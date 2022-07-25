@@ -6,7 +6,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.AnnotatedElement;
 import java.util.Optional;
 
 /**
@@ -20,7 +19,8 @@ public class PartnerAuditorInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         assert handler instanceof HandlerMethod;
 
-        PartnerAuditingApi partnerAuditingApi = AnnotatedElementUtils.findMergedAnnotation((AnnotatedElement) handler, PartnerAuditingApi.class);
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        PartnerAuditingApi partnerAuditingApi = AnnotatedElementUtils.findMergedAnnotation(handlerMethod.getMethod(), PartnerAuditingApi.class);
         if (partnerAuditingApi != null) {
             resolveAuditor(request);
         }

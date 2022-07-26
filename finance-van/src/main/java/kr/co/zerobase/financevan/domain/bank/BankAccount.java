@@ -30,11 +30,11 @@ public class BankAccount extends BaseEntity {
     @Column(name = "balance", nullable = false)
     private long balance;
 
-    public static BankAccount create(String name, LocalDate birthday) {
-        return create(UUID.randomUUID().toString(), name, birthday);
+    public static BankAccount open(String name, LocalDate birthday) {
+        return open(UUID.randomUUID().toString(), name, birthday);
     }
 
-    public static BankAccount create(String accountId, String name, LocalDate birthday) {
+    public static BankAccount open(String accountId, String name, LocalDate birthday) {
         return new BankAccount(accountId, name, birthday, 0);
     }
 

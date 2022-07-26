@@ -17,12 +17,12 @@ import java.time.LocalDate;
  * @Author Heli
  */
 @Service
-public class CreateBankAccountUseCase {
+public class OpenBankAccountUseCase {
 
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountTransactionRepository bankAccountTransactionRepository;
 
-    public CreateBankAccountUseCase(BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
+    public OpenBankAccountUseCase(BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountTransactionRepository = bankAccountTransactionRepository;
     }
@@ -33,8 +33,8 @@ public class CreateBankAccountUseCase {
             throw new DuplicateBankAccountTransactionException(spec.getChannelRequestId());
         }
 
-        BankAccount bankAccount = BankAccount.create(name, birthday);
-        BankAccountTransaction tx = BankAccountTransaction.create(bankAccount, spec);
+        BankAccount bankAccount = BankAccount.open(name, birthday);
+        BankAccountTransaction tx = BankAccountTransaction.open(bankAccount, spec);
 
         bankAccountTransactionRepository.save(tx);
         bankAccountRepository.save(bankAccount);

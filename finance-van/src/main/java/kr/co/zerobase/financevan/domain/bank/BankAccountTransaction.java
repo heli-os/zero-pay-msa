@@ -27,8 +27,8 @@ public class BankAccountTransaction extends BaseEntity {
     @Column(name = "channel_request_id", nullable = false)
     private String channelRequestId;
 
-    public static BankAccountTransaction create(BankAccount bankAccount, BankAccountTransactionChannelSpec spec) {
-        return new BankAccountTransaction(bankAccount, BankAccountTask.CREATE, 0, spec);
+    public static BankAccountTransaction open(BankAccount bankAccount, BankAccountTransactionChannelSpec spec) {
+        return new BankAccountTransaction(bankAccount, BankAccountTask.OPEN, 0, spec);
     }
 
     public static BankAccountTransaction withdraw(BankAccount bankAccount, long amount, BankAccountTransactionChannelSpec spec) {

@@ -1,9 +1,8 @@
 package kr.co.zerobase.financegateway.infrastructure.client.van;
 
 import kr.co.zerobase.financegateway.infrastructure.client.van.model.AccountBalanceResponse;
-import kr.co.zerobase.financegateway.infrastructure.client.van.model.TransferDepositRequest;
+import kr.co.zerobase.financegateway.infrastructure.client.van.model.TransferRequest;
 import kr.co.zerobase.financegateway.infrastructure.client.van.model.TransferResponse;
-import kr.co.zerobase.financegateway.infrastructure.client.van.model.TransferWithdrawRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +18,12 @@ public interface VanClient {
 
     @PostMapping("/api/v1/transfer/deposit/fin_num")
     ResponseEntity<TransferResponse> transferDepositFromFinNum(
-            @RequestBody TransferDepositRequest request
+            @RequestBody TransferRequest request
     );
 
     @PostMapping("/api/v1/transfer/withdraw/fin_num")
     ResponseEntity<TransferResponse> transferWithdrawFromFinNum(
-            @RequestBody TransferWithdrawRequest request
+            @RequestBody TransferRequest request
     );
 
     @GetMapping("/api/v1/account/balance/fin_num")

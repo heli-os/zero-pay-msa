@@ -6,9 +6,8 @@ import kr.co.zerobase.financevan.application.usecase.transaction.InquiryBalanceT
 import kr.co.zerobase.financevan.application.usecase.transaction.WithdrawTransactionUseCase;
 import kr.co.zerobase.financevan.application.usecase.transaction.spec.VanTransactionChannelSpec;
 import kr.co.zerobase.financevan.presentation.api.transaction.model.AccountBalanceResponse;
-import kr.co.zerobase.financevan.presentation.api.transaction.model.TransferDepositRequest;
+import kr.co.zerobase.financevan.presentation.api.transaction.model.TransferRequest;
 import kr.co.zerobase.financevan.presentation.api.transaction.model.TransferResponse;
-import kr.co.zerobase.financevan.presentation.api.transaction.model.TransferWithdrawRequest;
 import kr.co.zerobase.financevan.presentation.config.audit.PartnerAuditingApi;
 import kr.co.zerobase.financevan.presentation.config.audit.PartnerAuditor;
 import kr.co.zerobase.financevan.presentation.config.audit.PartnerAuditorHolder;
@@ -33,16 +32,16 @@ public class VanTransactionRestController {
 
     @PartnerAuditingApi
     @PostMapping("/api/v1/transfer/deposit/fin_num")
-    public ResponseEntity<TransferResponse> transferDepositFromFinNum(@RequestBody TransferDepositRequest request) {
+    public ResponseEntity<TransferResponse> transferDepositFromFinNum(@RequestBody TransferRequest request) {
         PartnerAuditor partnerAuditor = PartnerAuditorHolder.get();
         depositTransactionUseCase.command(
                 partnerAuditor.getPartnerId(),
                 request.getFintechUserNum(),
-                request.getBank(),
-                request.getBankAccountId(),
+                request.getDescription(),
                 request.getAmount(),
-                request.getReceivedAccountId(),
-                request.getReceivedAccountDescription(),
+                request.getTransactionBank(),
+                request.getTransactionAccountId(),
+                request.getTransactionDescription(),
                 new VanTransactionChannelSpec(request.getChannelRequestId())
         );
         return ResponseEntity.ok().body(TransferResponse.success());
@@ -50,16 +49,16 @@ public class VanTransactionRestController {
 
     @PartnerAuditingApi
     @PostMapping("/api/v1/transfer/withdraw/fin_num")
-    public ResponseEntity<TransferResponse> transferWithdrawFromFinNum(@RequestBody TransferWithdrawRequest request) {
+    public ResponseEntity<TransferResponse> transferWithdrawFromFinNum(@RequestBody TransferRequest request) {
         PartnerAuditor partnerAuditor = PartnerAuditorHolder.get();
         withdrawTransactionUseCase.command(
                 partnerAuditor.getPartnerId(),
                 request.getFintechUserNum(),
-                request.getBank(),
-                request.getBankAccountId(),
+                request.getDescription(),
                 request.getAmount(),
-                request.getReceivedAccountId(),
-                request.getReceivedAccountDescription(),
+                request.getTransactionBank(),
+                request.getTransactionAccountId(),
+                request.getTransactionDescription(),
                 new VanTransactionChannelSpec(request.getChannelRequestId())
         );
         return ResponseEntity.ok().body(TransferResponse.success());

@@ -1,6 +1,7 @@
 package kr.co.zerobase.financevan.application.usecase.bank;
 
 import kr.co.zerobase.financevan.application.mapper.BankAccountMapper;
+import kr.co.zerobase.financevan.application.service.bank.BankAccountQuery;
 import kr.co.zerobase.financevan.application.usecase.bank.definition.BankAccountDefinition;
 import kr.co.zerobase.financevan.application.usecase.bank.exception.DuplicateBankAccountTransactionException;
 import kr.co.zerobase.financevan.application.usecase.bank.spec.BankAccountTransactionChannelSpec;
@@ -18,10 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class IncreaseBalanceUseCase {
 
+    private final BankAccountQuery bankAccountQuery;
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountTransactionRepository bankAccountTransactionRepository;
 
-    public IncreaseBalanceUseCase(BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
+    public IncreaseBalanceUseCase(BankAccountQuery bankAccountQuery, BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
+        this.bankAccountQuery = bankAccountQuery;
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountTransactionRepository = bankAccountTransactionRepository;
     }
@@ -32,7 +35,7 @@ public class IncreaseBalanceUseCase {
             throw new DuplicateBankAccountTransactionException(spec.getChannelRequestId());
         }
 
-        BankAccount bankAccount = bankAccountRepository.findByBankAndAccountId(bank, accountId);
+        BankAccount bankAccount = bankAccountQuery.queryByBankAndAccountId(bank, accountId);
         BankAccountTransaction tx = BankAccountTransaction.deposit(bankAccount, increaseBalance, spec);
 
         bankAccountTransactionRepository.save(tx);

@@ -38,7 +38,7 @@ public class IssueFintechUserUseCase extends VanTransactionLogger<FintechUser> {
         FintechUser fintechUser = FintechUser.issue(bank, bankAccountId, name, birthday);
 
         commandWithLog(
-                () -> VanTransaction.register(partner, bank, fintechUser, spec),
+                () -> VanTransaction.register(partner, fintechUser, spec),
                 () -> fintechUserRepository.save(fintechUser)
         );
         return FintechUserMapper.toDefinition(fintechUser);

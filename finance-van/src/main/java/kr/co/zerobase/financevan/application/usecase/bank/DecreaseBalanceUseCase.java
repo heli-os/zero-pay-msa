@@ -1,6 +1,7 @@
 package kr.co.zerobase.financevan.application.usecase.bank;
 
 import kr.co.zerobase.financevan.application.mapper.BankAccountMapper;
+import kr.co.zerobase.financevan.application.service.bank.BankAccountQuery;
 import kr.co.zerobase.financevan.application.usecase.bank.definition.BankAccountDefinition;
 import kr.co.zerobase.financevan.application.usecase.bank.exception.DuplicateBankAccountTransactionException;
 import kr.co.zerobase.financevan.application.usecase.bank.spec.BankAccountTransactionChannelSpec;
@@ -18,21 +19,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DecreaseBalanceUseCase {
 
+    private final BankAccountQuery bankAccountQuery;
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountTransactionRepository bankAccountTransactionRepository;
 
-    public DecreaseBalanceUseCase(BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
+    public DecreaseBalanceUseCase(BankAccountQuery bankAccountQuery, BankAccountRepository bankAccountRepository, BankAccountTransactionRepository bankAccountTransactionRepository) {
+        this.bankAccountQuery = bankAccountQuery;
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountTransactionRepository = bankAccountTransactionRepository;
     }
 
     @Transactional
-    public BankAccountDefinition command(BankCorp bank, String bankAccountId, long decreaseBalance, BankAccountTransactionChannelSpec spec) {
+    public BankAccountDefinition command(BankCorp bank, String accountId, long decreaseBalance, BankAccountTransactionChannelSpec spec) {
         if (bankAccountTransactionRepository.existsByChannelRequestId(spec.getChannelRequestId())) {
             throw new DuplicateBankAccountTransactionException(spec.getChannelRequestId());
         }
 
-        BankAccount bankAccount = bankAccountRepository.findByBankAndAccountId(bank, bankAccountId);
+        BankAccount bankAccount = bankAccountQuery.queryByBankAndAccountId(bank, accountId);
         BankAccountTransaction tx = BankAccountTransaction.withdraw(bankAccount, decreaseBalance, spec);
 
         bankAccountTransactionRepository.save(tx);

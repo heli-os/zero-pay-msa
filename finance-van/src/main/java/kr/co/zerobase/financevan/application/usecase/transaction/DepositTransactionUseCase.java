@@ -32,13 +32,13 @@ public class DepositTransactionUseCase extends VanTransactionLogger<BankAccountD
     }
 
     @Transactional
-    public void command(long partnerId, String fintechUserNum, BankCorp bank, String bankAccountId, long increaseAmount, String receivedAccountId, String receivedAccountDescription, VanTransactionChannelSpec spec) {
+    public void command(long partnerId, String fintechUserNum, String description, long decreaseAmount, BankCorp transactionBank, String transactionAccountId, String transactionDescription, VanTransactionChannelSpec spec) {
         Partner partner = partnerQuery.queryById(partnerId);
         FintechUser fintechUser = fintechUserQuery.queryByFintechUserNum(fintechUserNum);
 
         commandWithLog(
-                () -> VanTransaction.deposit(partner, bank, fintechUser, receivedAccountId, receivedAccountDescription, increaseAmount, spec),
-                () -> bankClientAdapter.deposit(bank, bankAccountId, increaseAmount, new BankAccountTransactionChannelSpec(spec.getChannelRequestId()))
+                () -> VanTransaction.deposit(partner, fintechUser, description, transactionBank, transactionAccountId, transactionDescription, decreaseAmount, spec),
+                () -> bankClientAdapter.deposit(fintechUser.getBank(), fintechUser.getBankAccountId(), decreaseAmount, new BankAccountTransactionChannelSpec(spec.getChannelRequestId()))
         );
     }
 }

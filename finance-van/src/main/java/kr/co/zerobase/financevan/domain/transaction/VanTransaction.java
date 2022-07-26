@@ -39,11 +39,18 @@ public class VanTransaction extends BaseEntity {
     @Column(name = "res_dttm")
     private LocalDateTime resDttm;
 
-    @Column(name = "received_account_id", nullable = false)
-    private String receivedAccountId;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-    @Column(name = "received_account_description", nullable = false)
-    private String receivedAccountDescription;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_bank", nullable = false)
+    private BankCorp transactionBank;
+
+    @Column(name = "transaction_account_id", nullable = false)
+    private String transactionAccountId;
+
+    @Column(name = "transaction_account_description", nullable = false)
+    private String transactionAccountDescription;
 
     @Column(name = "amount", nullable = false)
     private long amount;
@@ -52,20 +59,20 @@ public class VanTransaction extends BaseEntity {
     private String channelRequestId;
 
 
-    public static VanTransaction register(Partner partner, BankCorp bank, FintechUser fintechUser, VanTransactionChannelSpec spec) {
-        return new VanTransaction(partner, bank, fintechUser, VanTask.REGISTER, LocalDateTime.now(), "", "", 0L, spec);
+    public static VanTransaction register(Partner partner, FintechUser fintechUser, VanTransactionChannelSpec spec) {
+        return new VanTransaction(partner, fintechUser, VanTask.REGISTER, "", fintechUser.getBank(), "", "", 0, spec);
     }
 
-    public static VanTransaction withdraw(Partner partner, BankCorp bank, FintechUser fintechUser, String receivedAccountId, String receivedAccountDescription, long amount, VanTransactionChannelSpec spec) {
-        return new VanTransaction(partner, bank, fintechUser, VanTask.WITHDRAW, LocalDateTime.now(), receivedAccountId, receivedAccountDescription, amount, spec);
+    public static VanTransaction withdraw(Partner partner, FintechUser fintechUser, String description, BankCorp transactionBank, String transactionAccountId, String transactionAccountDescription, long amount, VanTransactionChannelSpec spec) {
+        return new VanTransaction(partner, fintechUser, VanTask.WITHDRAW, description, transactionBank, transactionAccountId, transactionAccountDescription, amount, spec);
     }
 
-    public static VanTransaction deposit(Partner partner, BankCorp bank, FintechUser fintechUser, String receivedAccountId, String receivedAccountDescription, long amount, VanTransactionChannelSpec spec) {
-        return new VanTransaction(partner, bank, fintechUser, VanTask.DEPOSIT, LocalDateTime.now(), receivedAccountId, receivedAccountDescription, amount, spec);
+    public static VanTransaction deposit(Partner partner, FintechUser fintechUser, String description, BankCorp transactionBank, String transactionAccountId, String transactionAccountDescription, long amount, VanTransactionChannelSpec spec) {
+        return new VanTransaction(partner, fintechUser, VanTask.DEPOSIT, description, transactionBank, transactionAccountId, transactionAccountDescription, amount, spec);
     }
 
     public static VanTransaction balance(Partner partner, FintechUser fintechUser, VanTransactionChannelSpec spec) {
-        return new VanTransaction(partner, fintechUser.getBank(), fintechUser, VanTask.BALANCE, LocalDateTime.now(), null, null, null, spec);
+        return new VanTransaction(partner, fintechUser, VanTask.BALANCE, "", fintechUser.getBank(), "", "", 0, spec);
     }
 
     public VanTransaction applyResDttm() {
@@ -73,15 +80,17 @@ public class VanTransaction extends BaseEntity {
         return this;
     }
 
-    private VanTransaction(Partner partner, BankCorp bank, FintechUser fintechUser, VanTask task, LocalDateTime reqDttm, String receivedAccountId, String receivedAccountDescription, Long amount, VanTransactionChannelSpec spec) {
+    public VanTransaction(Partner partner, FintechUser fintechUser, VanTask task, String description, BankCorp transactionBank, String transactionAccountId, String transactionAccountDescription, long amount, VanTransactionChannelSpec spec) {
         this.partner = partner;
-        this.bank = bank;
+        this.bank = fintechUser.getBank();
         this.fintechUser = fintechUser;
         this.task = task;
-        this.reqDttm = reqDttm;
+        this.reqDttm = LocalDateTime.now();
         this.resDttm = null;
-        this.receivedAccountId = receivedAccountId;
-        this.receivedAccountDescription = receivedAccountDescription;
+        this.description = description;
+        this.transactionBank = transactionBank;
+        this.transactionAccountId = transactionAccountId;
+        this.transactionAccountDescription = transactionAccountDescription;
         this.amount = amount;
         this.channelRequestId = spec.getChannelRequestId();
     }
@@ -110,16 +119,24 @@ public class VanTransaction extends BaseEntity {
         return resDttm;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public BankCorp getTransactionBank() {
+        return transactionBank;
+    }
+
+    public String getTransactionAccountId() {
+        return transactionAccountId;
+    }
+
+    public String getTransactionAccountDescription() {
+        return transactionAccountDescription;
+    }
+
     public long getAmount() {
         return amount;
-    }
-
-    public String getReceivedAccountId() {
-        return receivedAccountId;
-    }
-
-    public String getReceivedAccountDescription() {
-        return receivedAccountDescription;
     }
 
     public String getChannelRequestId() {

@@ -1,4 +1,4 @@
-package kr.co.zerobase.financevan.application.usecase.user.exception;
+package kr.co.zerobase.financevan.application.service.user.exception;
 
 /**
  * @Author Heli

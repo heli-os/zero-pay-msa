@@ -16,7 +16,7 @@ public class BankAccount extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "bank", nullable = false)
-    private BankCorp bank;
+    private BankCorp bank = BankCorp.SHINHAN;
 
     @Column(name = "account_id", nullable = false)
     private String accountId;
@@ -30,8 +30,12 @@ public class BankAccount extends BaseEntity {
     @Column(name = "balance", nullable = false)
     private long balance;
 
-    public static BankAccount create(BankCorp bank, String name, LocalDate birthday) {
-        return new BankAccount(bank, UUID.randomUUID().toString(), name, birthday, 0);
+    public static BankAccount create(String name, LocalDate birthday) {
+        return create(UUID.randomUUID().toString(), name, birthday);
+    }
+
+    public static BankAccount create(String accountId, String name, LocalDate birthday) {
+        return new BankAccount(accountId, name, birthday, 0);
     }
 
     public BankAccount increaseBalance(long balance) {
@@ -47,8 +51,7 @@ public class BankAccount extends BaseEntity {
         return this;
     }
 
-    private BankAccount(BankCorp bank, String accountId, String name, LocalDate birthday, long balance) {
-        this.bank = bank;
+    private BankAccount(String accountId, String name, LocalDate birthday, long balance) {
         this.accountId = accountId;
         this.name = name;
         this.birthday = birthday;

@@ -32,13 +32,13 @@ public class WithdrawTransactionUseCase extends VanTransactionLogger<BankAccount
     }
 
     @Transactional
-    public void command(long partnerId, String fintechUserNum, BankCorp bank, String bankAccountId, long decreaseAmount, String receivedAccountId, String receivedAccountDescription, VanTransactionChannelSpec spec) {
+    public void command(long partnerId, String fintechUserNum, String description, long decreaseAmount, BankCorp transactionBank, String transactionAccountId, String transactionDescription, VanTransactionChannelSpec spec) {
         Partner partner = partnerQuery.queryById(partnerId);
         FintechUser fintechUser = fintechUserQuery.queryByFintechUserNum(fintechUserNum);
 
         commandWithLog(
-                () -> VanTransaction.withdraw(partner, bank, fintechUser, receivedAccountId, receivedAccountDescription, decreaseAmount, spec),
-                () -> bankClientAdapter.withdraw(bank, bankAccountId, decreaseAmount, new BankAccountTransactionChannelSpec(spec.getChannelRequestId()))
+                () -> VanTransaction.withdraw(partner, fintechUser, description, transactionBank, transactionAccountId, transactionDescription, decreaseAmount, spec),
+                () -> bankClientAdapter.withdraw(fintechUser.getBank(), fintechUser.getBankAccountId(), decreaseAmount, new BankAccountTransactionChannelSpec(spec.getChannelRequestId()))
         );
     }
 }

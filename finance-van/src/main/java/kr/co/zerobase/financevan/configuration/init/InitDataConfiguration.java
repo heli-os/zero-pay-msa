@@ -32,8 +32,8 @@ public class InitDataConfiguration {
     }
 
     private final Partner partner = Partner.create("Zero Pay");
-    private final BankAccount shinhanBankAccount = BankAccount.create(BankCorp.SHINHAN, "Heli", LocalDate.of(1996, 8, 13));
-    private final FintechUser fintechUser = FintechUser.issue(BankCorp.SHINHAN, "111-222-333", shinhanBankAccount.getName(), shinhanBankAccount.getBirthday(), "444-555");
+    private final BankAccount shinhanBankAccount = BankAccount.create("111-222-333", "Heli", LocalDate.of(1996, 8, 13));
+    private final FintechUser fintechUser = FintechUser.issue(BankCorp.SHINHAN, shinhanBankAccount.getAccountId(), shinhanBankAccount.getName(), shinhanBankAccount.getBirthday(), "444-555");
 
     @PostConstruct
     @Transactional

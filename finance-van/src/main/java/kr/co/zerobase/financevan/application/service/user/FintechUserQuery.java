@@ -1,6 +1,6 @@
 package kr.co.zerobase.financevan.application.service.user;
 
-import kr.co.zerobase.financevan.application.usecase.user.exception.NotFoundFintechUserException;
+import kr.co.zerobase.financevan.application.service.user.exception.NotFoundFintechUserException;
 import kr.co.zerobase.financevan.domain.user.FintechUser;
 import kr.co.zerobase.financevan.infrastructure.persistence.user.FintechUserRepository;
 import org.springframework.stereotype.Service;

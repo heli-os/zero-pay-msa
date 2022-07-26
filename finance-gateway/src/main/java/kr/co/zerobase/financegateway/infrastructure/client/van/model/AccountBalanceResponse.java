@@ -5,13 +5,20 @@ package kr.co.zerobase.financegateway.infrastructure.client.van.model;
  */
 public class AccountBalanceResponse {
 
-    private final long balance;
-
-    public AccountBalanceResponse(long balance) {
-        this.balance = balance;
-    }
+    private long balance;
 
     public long getBalance() {
         return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountBalanceResponse{" +
+                "balance=" + balance +
+                '}';
     }
 }

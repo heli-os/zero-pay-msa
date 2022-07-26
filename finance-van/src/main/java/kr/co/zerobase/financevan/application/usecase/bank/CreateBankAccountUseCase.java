@@ -6,7 +6,6 @@ import kr.co.zerobase.financevan.application.usecase.bank.exception.DuplicateBan
 import kr.co.zerobase.financevan.application.usecase.bank.spec.BankAccountTransactionChannelSpec;
 import kr.co.zerobase.financevan.domain.bank.BankAccount;
 import kr.co.zerobase.financevan.domain.bank.BankAccountTransaction;
-import kr.co.zerobase.financevan.domain.bank.BankCorp;
 import kr.co.zerobase.financevan.infrastructure.persistence.bank.BankAccountRepository;
 import kr.co.zerobase.financevan.infrastructure.persistence.bank.BankAccountTransactionRepository;
 import org.springframework.stereotype.Service;
@@ -29,12 +28,12 @@ public class CreateBankAccountUseCase {
     }
 
     @Transactional
-    public BankAccountDefinition command(BankCorp bank, String name, LocalDate birthday, BankAccountTransactionChannelSpec spec) {
+    public BankAccountDefinition command(String name, LocalDate birthday, BankAccountTransactionChannelSpec spec) {
         if (bankAccountTransactionRepository.existsByChannelRequestId(spec.getChannelRequestId())) {
             throw new DuplicateBankAccountTransactionException(spec.getChannelRequestId());
         }
 
-        BankAccount bankAccount = BankAccount.create(bank, name, birthday);
+        BankAccount bankAccount = BankAccount.create(name, birthday);
         BankAccountTransaction tx = BankAccountTransaction.create(bankAccount, spec);
 
         bankAccountTransactionRepository.save(tx);

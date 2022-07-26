@@ -30,13 +30,13 @@ public class FintechUser extends BaseEntity {
     @Column(name = "fintech_user_num", nullable = false)
     private String fintechUserNum;
 
-    public static FintechUser issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday, String uuid) {
+    public static FintechUser issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday, String fintechUserNum) {
         FintechUser fintechUser = new FintechUser();
         fintechUser.bank = bank;
         fintechUser.bankAccountId = bankAccountId;
         fintechUser.name = name;
         fintechUser.birthday = birthday;
-        fintechUser.fintechUserNum = uuid;
+        fintechUser.fintechUserNum = fintechUserNum;
         return fintechUser;
     }
 

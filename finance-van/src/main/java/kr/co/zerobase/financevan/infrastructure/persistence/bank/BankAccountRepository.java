@@ -4,10 +4,12 @@ import kr.co.zerobase.financevan.domain.bank.BankAccount;
 import kr.co.zerobase.financevan.domain.bank.BankCorp;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * @Author Heli
  */
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long>, BankAccountRepositoryCustom {
 
-    BankAccount findByBankAndAccountId(BankCorp bank, String accountId);
+    Optional<BankAccount> findByBankAndAccountId(BankCorp bank, String accountId);
 }

@@ -14,7 +14,7 @@ public class VanClientConfiguration {
 
     @Bean
     public RequestInterceptor requestInterceptor() {
-        return restTemplate -> restTemplate.header("X-PARTNER-ID", "1234");
+        return restTemplate -> restTemplate.header("X-PARTNER-ID", "444-555");
     }
 
     @Bean

@@ -30,14 +30,18 @@ public class FintechUser extends BaseEntity {
     @Column(name = "fintech_user_num", nullable = false)
     private String fintechUserNum;
 
-    public static FintechUser issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday) {
+    public static FintechUser issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday, String uuid) {
         FintechUser fintechUser = new FintechUser();
         fintechUser.bank = bank;
         fintechUser.bankAccountId = bankAccountId;
         fintechUser.name = name;
         fintechUser.birthday = birthday;
-        fintechUser.fintechUserNum = UUID.randomUUID().toString();
+        fintechUser.fintechUserNum = uuid;
         return fintechUser;
+    }
+
+    public static FintechUser issue(BankCorp bank, String bankAccountId, String name, LocalDate birthday) {
+        return issue(bank, bankAccountId, name, birthday, UUID.randomUUID().toString());
     }
 
     protected FintechUser() {

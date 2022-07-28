@@ -17,12 +17,14 @@ public class VanTransactionLogger<T> {
         this.vanTransactionRepository = vanTransactionRepository;
     }
 
-    protected T commandWithLog(Supplier<VanTransaction> txSupplier, Supplier<T> entitySupplier) {
+    protected T commandWithLog(Supplier<VanTransaction> txSupplier, Supplier<T> requestSupplier) {
         VanTransaction tx = txSupplier.get();
         if (vanTransactionRepository.existsByChannelRequestId(tx.getChannelRequestId())) {
             throw new DuplicateVanTransactionException(tx.getChannelRequestId());
         }
         vanTransactionRepository.save(tx);
-        return entitySupplier.get();
+        T response = requestSupplier.get();
+        tx.applyResDttm();
+        return response;
     }
 }

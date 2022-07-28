@@ -1,4 +1,4 @@
-package kr.co.zerobase.financevan.domain.enums;
+package kr.co.zerobase.financegateway.domain.enums;
 
 /**
  * @Author Heli
@@ -6,11 +6,11 @@ package kr.co.zerobase.financevan.domain.enums;
 public enum SuccessYn {
     Y, N;
 
-    public Boolean isSuccess() {
+    public boolean isSuccess() {
         return this == Y;
     }
 
-    public Boolean isFail() {
+    public boolean isFailure() {
         return this == N;
     }
 }
